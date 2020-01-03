@@ -19,9 +19,11 @@ def stimulus_type_palette(reference_frame):
         reference_frame = [reference_frame]
     if 'relative' in reference_frame:
         pal = sns.color_palette('deep', 5)
+        pal = ["rgb(%i, %i, %i)" % tuple([(j*255) for j in i]) for i in pal]
         palette.update(dict(zip(LOGPOLAR_SUPERCLASS_ORDER, pal)))
     if 'absolute' in reference_frame:
         pal = sns.color_palette('cubehelix', 5)
+        pal = ["rgb(%i, %i, %i)" % tuple([(j*255) for j in i]) for i in pal]
         palette.update(dict(zip(CONSTANT_SUPERCLASS_ORDER, pal)))
     return palette
 
