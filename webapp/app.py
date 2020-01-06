@@ -1,6 +1,7 @@
 import sfm
 import functions
 import dash
+import numpy as np
 import dash_core_components as dcc
 import os.path as op
 import dash_html_components as html
@@ -14,10 +15,20 @@ main_eqt = functions.get_svg(op.join(eqts_dir, 'main.svg'))
 
 app.layout = html.Div([
     html.H1('Spatial Frequency Preferences Model'),
-    html.Div(id='model-name'),
-    html.Div([html.Img(src=main_eqt)]),
-    html.Div([html.Img(id='period-eqt')]),
-    html.Div([html.Img(id='amp-eqt')]),
+    html.Div([dcc.RadioItems(id='ref-frame', value='relative',
+                             options=[{'label': i.capitalize(), 'value': i}
+                                      for i in ['relative', 'absolute']]),
+              dcc.Input(id='vox-ecc', type='number', placeholder='Voxel eccentricity (deg)',
+                        min=0, max=90),
+              dcc.Input(id='vox-angle', type='number', placeholder='Voxel angle (deg)',
+                        min=0, max=360, step=1),
+              dcc.Graph(id='pdf')],
+             style={'width': '45%', 'display': 'inline-block', 'float': 'right',
+                    'padding-right': '50px'}),
+    html.Div([html.P(id='model-name'), html.Img(src=main_eqt), html.Img(id='period-eqt'),
+              html.Img(id='amp-eqt')],
+             style={'width': '45%', 'display': 'inline-block', 'float': 'left',
+                    'padding-bottom': '110px', 'padding-top': '120px'}),
 
     html.Div([
         u'\u03c3',
@@ -35,7 +46,7 @@ app.layout = html.Div([
             id='intercept-slider', min=0, max=1, value=.3, marks={i/10: str(i/10) for i in range(11)},
             step=None,
         ),
-    ], style={'width': '30%', 'padding': '20px 20px', 'display': 'inline-block'}
+    ], style={'width': '31.5%', 'padding': '85px 1vw', 'display': 'inline-block', 'float': 'left'}
     ),
     html.Div([
         dcc.Markdown('*p<sub>1</sub>*', dangerously_allow_html=True),
@@ -62,7 +73,7 @@ app.layout = html.Div([
             marks={(i-5)/10: str((i-5)/10) for i in range(11)},
             step=None,
         ),
-    ], style={'width': '30%', 'padding': '20px 20px', 'display': 'inline-block'}
+    ], style={'width': '31.5%', 'padding': '20px 1vw', 'display': 'inline-block'}
     ),
     html.Div([
         dcc.Markdown('*A<sub>1</sub>*', dangerously_allow_html=True),
@@ -89,7 +100,7 @@ app.layout = html.Div([
             marks={(i-5)/10: str((i-5)/10) for i in range(11)},
             step=None,
         ),
-    ], style={'width': '30%', 'padding': '20px 20px', 'display': 'inline-block'}
+    ], style={'width': '31.5%', 'padding': '20px 0vw', 'display': 'inline-block', 'float': 'right'}
     ),
     html.Div([
         dcc.Graph(id='rel-period-graph'), dcc.Graph(id='abs-period-graph')],
@@ -199,6 +210,28 @@ def abs_amp_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     model = sfm.model.LogGaussianDonut('full', 'full', True, sigma, a, b, p1, p2, p3, p4,
                                        A1, A2, A3, A4)
     return functions.polar_plot(model, 'absolute', 'amp')
+
+
+@app.callback(
+    Output('pdf', 'figure'),
+    [Input('sigma-slider', 'value'),
+     Input('slope-slider', 'value'), Input('intercept-slider', 'value'),
+     Input('p1-slider', 'value'), Input('p2-slider', 'value'), Input('p3-slider', 'value'),
+     Input('p4-slider', 'value'), Input('A1-slider', 'value'), Input('A2-slider', 'value'),
+     Input('A3-slider', 'value'), Input('A4-slider', 'value'), Input('ref-frame', 'value'),
+     Input('vox-ecc', 'value'), Input('vox-angle', 'value')]
+)
+def pdf_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4, reference_frame, vox_ecc, vox_angle):
+    """
+    """
+    model = sfm.model.LogGaussianDonut('full', 'full', True, sigma, a, b, p1, p2, p3, p4,
+                                       A1, A2, A3, A4)
+    if vox_ecc is None:
+        vox_ecc = 1
+    if vox_angle is None:
+        vox_angle = 0
+    vox_angle = np.deg2rad(vox_angle)
+    return functions.pdf_plot(model, reference_frame, vox_ecc, vox_angle)
 
 
 @app.callback(
