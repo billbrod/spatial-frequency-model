@@ -35,6 +35,28 @@ from this directory, then `docker run -p 8050:8050
 spatial-frequency-model` and open `http://localhost:8050/` in your
 browser.
 
+## Closing the container
+
+The image will run until you kill it, and the only way I've found to
+do that is to find the docker container ID and tell docker to kill it
+(for some reason, pressing `ctrl+c` doesn't work). So in a new
+terminal window, run:
+
+```
+sudo docker ps
+```
+
+which will list all running docker images. One of these should, under
+`IMAGE`, say `billbrod/spatial-frequency-model` or
+`spatial-frequency-model`. Copy the value under `CONTAINER ID` and
+then run:
+
+```
+sudo docker kill [CONTAINER ID]
+```
+
+which should kill the other `docker run` process.
+
 # Run locally
 
 If you want to run locally, you can either [build the
