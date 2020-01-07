@@ -1,4 +1,5 @@
 # spatial-frequency-model
+
 Model from the spatial frequency preferences paper
 
 # Docker container
@@ -76,3 +77,20 @@ python webapp/app.py
 
 And open `http://localhost:8050/` in your browser (if it doesn't do so
 automatically)
+
+The app uses a variety of `.svg` images of equations (since MathJax
+and other LaTeX renderers apparently don't work in Dash right
+now). They can be found in the `equations` directory and are generated
+using the MathJax command line interface from the `.tex` files found
+there as well. A small python script, `equations/convert.py`, is used
+to script this conversion. The Docker image will automatically
+re-generate these every time it's built (in case the `.tex` files
+change), but you can generate them manually:
+
+1. Install `node.js` and `npm`. (On Ubuntu: `sudo apt install nodejs
+   npm`)
+2. Use `npm` to install the MathJax command line interface: `npm
+   install --global mathjax-node-cli`
+3. Run the included python script: from this directory, run `python
+   equations/convert.py` (it takes no arguments; it will convert all
+   `.tex` files found in the same directory).
