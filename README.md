@@ -32,9 +32,8 @@ changes in this repo), just run:
 sudo docker build --tag spatial-frequency-model:latest ./
 ```
 
-from this directory, then `docker run -p 8050:8050
-spatial-frequency-model` and open `http://localhost:8050/` in your
-browser.
+from this directory, then `docker run -p 8050:8050 spatial-frequency-model` and
+open `http://localhost:8050/` in your browser.
 
 ## Closing the container
 
@@ -61,22 +60,23 @@ which should kill the other `docker run` process.
 # Run locally
 
 If you want to run locally, you can either [build the
-`Dockerfile`](#build-dockerfile) or create the python environment
-locally. To do that, make sure you have `conda` installed (if you
-don't already have it installed, see
-[here](https://docs.conda.io/en/latest/miniconda.html) for how to
-install `miniconda`, which is a minimal install), then from this
-directory run the following on your command line:
+`Dockerfile`](#build-dockerfile) or install the package locally. If you want to
+do that, I recommend using `conda` or something similar to manage your python
+environments (see [below](#using-conda-for-python-environments) for more
+information if you don't know how to set up an environment).
+
+Once you have set up and activated the environment you want to install the
+package into, run the following:
 
 ```
-conda env create -f webapp_environment.yml
-conda activate dash
+pip install dash
 pip install -e .
 python webapp/app.py
 ```
 
 And open `http://localhost:8050/` in your browser (if it doesn't do so
-automatically)
+automatically). The `dash` version probably doesn't matter for anything we do,
+but the docker container uses `1.18.1` if you want to match it.
 
 The app uses a variety of `.svg` images of equations (since MathJax
 and other LaTeX renderers apparently don't work in Dash right
@@ -94,3 +94,25 @@ change), but you can generate them manually:
 3. Run the included python script: from this directory, run `python
    equations/convert.py` (it takes no arguments; it will convert all
    `.tex` files found in the same directory).
+
+## Using conda for python environments
+
+To use conda to manage your python environments, make sure you have `conda`
+installed (if you don't already have it installed, see
+[here](https://docs.conda.io/en/latest/miniconda.html) for how to install
+`miniconda`, which is a minimal install, make sure to pay attention to how to
+set up your shell after installing it), then from this directory run the
+following on your command line:
+
+```
+conda create -n spatial-frequency python==3.7
+conda activate spatial-frequency
+```
+
+This will create a new python 3.7 environment called `spatial-frequency` which
+will only contain the basics, and then "activate" that environment. Once an
+environment has been activated, all python-related commands (e.g., `python`,
+`pip`) will use *those* versions. This allows you to keep different versions and
+different packages in different environments. After you've created and activated
+this new environment, follow the steps above to install the webapp.
+
