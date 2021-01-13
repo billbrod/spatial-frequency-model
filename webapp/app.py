@@ -22,8 +22,11 @@ from dash.dependencies import Input, Output
 
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
 
-eqts_dir = op.join(op.dirname(op.realpath(__file__)), '..', 'equations')
+image_dir = op.join(op.dirname(op.realpath(__file__)), '..', 'images')
+eqts_dir = op.join(image_dir, 'equations')
 main_eqt = functions.get_svg(op.join(eqts_dir, 'main.svg'))
+rel_legend = functions.get_svg(op.join(image_dir, 'stimulus-legend-relative.svg'))
+abs_legend = functions.get_svg(op.join(image_dir, 'stimulus-legend-absolute.svg'))
 
 app.layout = html.Div([
     html.H1('Spatial Frequency Preferences Model'),
@@ -43,11 +46,16 @@ app.layout = html.Div([
     html.Div([html.P(id='model-type'), html.Img(src=main_eqt), html.Img(id='period-eqt'),
               html.Img(id='amp-eqt')],
              style={'width': '45%', 'display': 'inline-block', 'float': 'left',
-                    'padding-bottom': '110px', 'padding-top': '120px'}),
+                    'padding-bottom': '55px', 'padding-top': '75px', 'padding-left': '50px'}),
+
+    # Pictures of legends
+    html.Div([html.P(children=['Example stimuli']), html.Img(src=rel_legend), html.Img(src=abs_legend)],
+             style={'display': 'inline-block', 'width': '45%',
+                    'padding-left': '50px', 'padding-bottom': '20px'}),
 
     # First group of parameter sliders
     html.Div([
-        u'\u03c3',
+        dcc.Markdown('\u03c3'),
         dcc.Slider(
             id='sigma-slider', min=.25, max=3, value=1, marks={i/4: str(i/4) for i in range(1, 13)},
             step=None,
@@ -62,7 +70,7 @@ app.layout = html.Div([
             id='intercept-slider', min=0, max=1, value=.3, marks={i/10: str(i/10) for i in range(11)},
             step=None,
         ),
-    ], style={'width': '31.5%', 'padding': '85px 1vw', 'display': 'inline-block', 'float': 'left'}
+    ], style={'width': '31.5%', 'padding': '20px 1vw', 'display': 'inline-block', 'float': 'left'}
     ),
     # Second group of parameter sliders
     html.Div([
