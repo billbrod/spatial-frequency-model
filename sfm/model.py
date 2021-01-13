@@ -10,6 +10,15 @@ import itertools
 import re
 from scipy import stats
 
+MODEL_ORDER = ['constant_donut_period-iso_amps-iso', 'scaling_donut_period-iso_amps-iso',
+               'full_donut_period-iso_amps-iso', 'full_donut_period-absolute_amps-iso',
+               'full_donut_period-relative_amps-iso', 'full_donut_period-full_amps-iso',
+               'full_donut_period-iso_amps-absolute', 'full_donut_period-iso_amps-relative',
+               'full_donut_period-iso_amps-full', 'full_donut_period-absolute_amps-absolute',
+               'full_donut_period-relative_amps-relative', 'full_donut_period-full_amps-absolute',
+               'full_donut_period-full_amps-relative', 'full_donut_period-full_amps-full']
+MODEL_PLOT_ORDER = list(range(1, len(MODEL_ORDER)+1))
+
 
 def _cast_as_tensor(x):
     if type(x) == pd.Series:
@@ -40,43 +49,70 @@ def _check_and_reshape_tensors(x, y):
     return x, y
 
 
-def _check_log_gaussian_params(param_vals, train_params, orientation_type, eccentricity_type,
-                               vary_amplitude):
-        if orientation_type in ['relative', 'iso']:
-            for param, angle in itertools.product(['mode', 'amplitude'],
-                                                  ['cardinals', 'obliques']):
-                if param_vals['abs_%s_%s' % (param, angle)] != 0:
-                    warnings.warn("When orientation_type is %s, all absolute variables must"
-                                  " be 0, correcting this..." % orientation_type)
-                    param_vals['abs_%s_%s' % (param, angle)] = 0
-                train_params['abs_%s_%s' % (param, angle)] = False
-        if orientation_type in ['absolute', 'iso']:
-            for param, angle in itertools.product(['mode', 'amplitude'],
-                                                  ['cardinals', 'obliques']):
-                if param_vals['rel_%s_%s' % (param, angle)] != 0:
-                    warnings.warn("When orientation_type is %s, all relative variables must"
-                                  " be 0, correcting this..." % orientation_type)
-                    param_vals['rel_%s_%s' % (param, angle)] = 0
-                train_params['rel_%s_%s' % (param, angle)] = False
-        if orientation_type not in ['relative', 'absolute', 'iso', 'full']:
-            raise Exception("Don't know how to handle orientation_type %s!" % orientation_type)
-        if not vary_amplitude:
-            for ori, angle in itertools.product(['abs', 'rel'], ['cardinals', 'obliques']):
-                if param_vals['%s_amplitude_%s' % (ori, angle)] != 0:
-                    warnings.warn("When vary_amplitude is False, all amplitude variables must"
-                                  " be 0, correcting this...")
-                    param_vals['%s_amplitude_%s' % (ori, angle)] = 0
-                train_params['%s_amplitude_%s' % (ori, angle)] = False
+def _check_log_gaussian_params(param_vals, train_params, period_orientation_type,
+                               eccentricity_type, amplitude_orientation_type):
+        if period_orientation_type in ['relative', 'iso']:
+            for angle in ['cardinals', 'obliques']:
+                if param_vals[f'abs_mode_{angle}'] != 0:
+                    # when parsing from df, these can be nan. don't need
+                    # to raise the warning in that case
+                    if not np.isnan(param_vals[f'abs_mode_{angle}']):
+                        warnings.warn(f"When period_orientation_type is {period_orientation_type}, "
+                                      "all absolute variables must be 0, correcting this...")
+                    param_vals[f'abs_mode_{angle}'] = 0
+                train_params[f'abs_mode_{angle}'] = False
+        if period_orientation_type in ['absolute', 'iso']:
+            for angle in ['cardinals', 'obliques']:
+                if param_vals[f'rel_mode_{angle}'] != 0:
+                    # when parsing from df, these can be nan. don't need
+                    # to raise the warning in that case
+                    if not np.isnan(param_vals[f'rel_mode_{angle}']):
+                        warnings.warn(f"When period_orientation_type is {period_orientation_type}, "
+                                      "all relative variables must be 0, correcting this...")
+                    param_vals[f'rel_mode_{angle}'] = 0
+                train_params[f'rel_mode_{angle}'] = False
+        if period_orientation_type not in ['relative', 'absolute', 'iso', 'full']:
+            raise Exception("Don't know how to handle period_orientation_type "
+                            f"{period_orientation_type}!")
+        if amplitude_orientation_type in ['relative', 'iso']:
+            for angle in ['cardinals', 'obliques']:
+                if param_vals[f'abs_amplitude_{angle}'] != 0:
+                    # when parsing from df, these can be nan. don't need
+                    # to raise the warning in that case
+                    if not np.isnan(param_vals[f'abs_amplitude_{angle}']):
+                        warnings.warn(f"When amplitude_orientation_type is {amplitude_orientation_type}, "
+                                      "all absolute variables must be 0, correcting this...")
+                    param_vals[f'abs_amplitude_{angle}'] = 0
+                train_params[f'abs_amplitude_{angle}'] = False
+        if amplitude_orientation_type in ['absolute', 'iso']:
+            for angle in ['cardinals', 'obliques']:
+                if param_vals[f'rel_amplitude_{angle}'] != 0:
+                    # when parsing from df, these can be nan. don't need
+                    # to raise the warning in that case
+                    if not np.isnan(param_vals[f'rel_amplitude_{angle}']):
+                        warnings.warn(f"When amplitude_orientation_type is {amplitude_orientation_type}, "
+                                      "all relative variables must be 0, correcting this...")
+                    param_vals[f'rel_amplitude_{angle}'] = 0
+                train_params[f'rel_amplitude_{angle}'] = False
+        if amplitude_orientation_type not in ['relative', 'absolute', 'iso', 'full']:
+            raise Exception("Don't know how to handle amplitude_orientation_type "
+                            f"{amplitude_orientation_type}!")
         if eccentricity_type == 'scaling':
             if param_vals['sf_ecc_intercept'] != 0:
-                warnings.warn("When eccentricity_type is scaling, sf_ecc_intercept must be 0! "
-                              "correcting...")
+                # when parsing from df, these can be nan. don't need
+                # to raise the warning in that case
+                if not np.isnan(param_vals[f'sf_ecc_intercept']):
+                    warnings.warn("When eccentricity_type is scaling, sf_ecc_intercept must be 0! "
+                                  "correcting...")
                 param_vals['sf_ecc_intercept'] = 0
             train_params['sf_ecc_intercept'] = False
         elif eccentricity_type == 'constant':
             if param_vals['sf_ecc_slope'] != 0:
-                warnings.warn("When eccentricity_type is constant, sf_ecc_slope must be 0! "
-                              "correcting...")
+                # when parsing from df, these can be nan. don't need
+                # to raise the warning in that case
+                if not np.isnan(param_vals[f'sf_ecc_slope']):
+                    warnings.warn("When eccentricity_type is constant, sf_ecc_slope must be 0! "
+                                  "correcting...")
                 param_vals['sf_ecc_slope'] = 0
             train_params['sf_ecc_slope'] = False
         elif eccentricity_type != 'full':
@@ -90,26 +126,33 @@ class LogGaussianDonut(torch.nn.Module):
     orientation_type, eccentricity_type, vary_amplitude: together specify what
     kind of model to train
 
-    orientation_type: {iso, absolute, relative, full}.
-    - iso: model is isotropic, predictions identical for all orientations.
-    - absolute: model can fit differences in absolute orientation, that is, in Cartesian
-      coordinates, such that sf_angle=0 correponds to "to the right"
-    - relative: model can fit differences in relative orientation, that is, in retinal polar
-      coordinates, such that sf_angle=0 corresponds to "away from the fovea"
-    - full: model can fit differences in both absolute and relative orientations
+    period_orientation_type: {iso, absolute, relative, full}.
+        How we handle the effect of orientation on preferred period:
+        - iso: model is isotropic, predictions identical for all orientations.
+        - absolute: model can fit differences in absolute orientation, that is, in Cartesian
+          coordinates, such that sf_angle=0 correponds to "to the right"
+        - relative: model can fit differences in relative orientation, that is, in retinal polar
+          coordinates, such that sf_angle=0 corresponds to "away from the fovea"
+        - full: model can fit differences in both absolute and relative orientations
 
     eccentricity_type: {scaling, constant, full}.
-    - scaling: model's relationship between preferred period and eccentricity is exactly scaling,
-      that is, the preferred period is equal to the eccentricity.
-    - constant: model's relationship between preferred period and eccentricity is exactly constant,
-      that is, it does not change with eccentricity but is flat.
-    - full: model discovers the relationship between eccentricity and preferred period, though it
-      is constrained to be linear (i.e., model solves for a and b in $period = a * eccentricity +
-      b$)
+        How we handle the effect of eccentricity on preferred period
+        - scaling: model's relationship between preferred period and eccentricity is exactly scaling,
+          that is, the preferred period is equal to the eccentricity.
+        - constant: model's relationship between preferred period and eccentricity is exactly constant,
+          that is, it does not change with eccentricity but is flat.
+        - full: model discovers the relationship between eccentricity and preferred period, though it
+          is constrained to be linear (i.e., model solves for a and b in $period = a * eccentricity +
+          b$)
 
-    vary_amplitude: boolean. whether to allow the model to fit the parameters that control
-    amplitude as a function of orientation (whether this depends on absolute orientation, relative
-    orientation, or both depends on the value of `orientation_type`)
+    amplitude_orientation_type: {iso, absolute, relative, full}.
+        How we handle the effect of orientation on maximum amplitude:
+        - iso: model is isotropic, predictions identical for all orientations.
+        - absolute: model can fit differences in absolute orientation, that is, in Cartesian
+          coordinates, such that sf_angle=0 correponds to "to the right"
+        - relative: model can fit differences in relative orientation, that is, in retinal polar
+          coordinates, such that sf_angle=0 corresponds to "away from the fovea"
+        - full: model can fit differences in both absolute and relative orientations
 
     all other parameters are initial values. whether they will be fit or not (i.e., whether they
     have `requires_grad=True`) depends on the values of `orientation_type`, `eccentricity_type` and
@@ -121,11 +164,11 @@ class LogGaussianDonut(torch.nn.Module):
     call it with the absolute orientation.
 
     """
-    def __init__(self, orientation_type='iso', eccentricity_type='full', vary_amplitude=True,
-                 sigma=.4, sf_ecc_slope=1, sf_ecc_intercept=0, abs_mode_cardinals=0,
-                 abs_mode_obliques=0, rel_mode_cardinals=0, rel_mode_obliques=0,
-                 abs_amplitude_cardinals=0, abs_amplitude_obliques=0, rel_amplitude_cardinals=0,
-                 rel_amplitude_obliques=0):
+    def __init__(self, period_orientation_type='iso', eccentricity_type='full',
+                 amplitude_orientation_type='iso', sigma=.4, sf_ecc_slope=1, sf_ecc_intercept=0,
+                 abs_mode_cardinals=0, abs_mode_obliques=0, rel_mode_cardinals=0,
+                 rel_mode_obliques=0, abs_amplitude_cardinals=0, abs_amplitude_obliques=0,
+                 rel_amplitude_cardinals=0, rel_amplitude_obliques=0):
         super().__init__()
         train_kwargs = {}
         kwargs = {}
@@ -136,15 +179,16 @@ class LogGaussianDonut(torch.nn.Module):
         for var in ['slope', 'intercept']:
             train_kwargs['sf_ecc_%s' % var] = True
             kwargs['sf_ecc_%s' % var] = eval("sf_ecc_%s" % var)
-        kwargs, train_kwargs = _check_log_gaussian_params(kwargs, train_kwargs, orientation_type,
-                                                          eccentricity_type, vary_amplitude)
+        kwargs, train_kwargs = _check_log_gaussian_params(kwargs, train_kwargs,
+                                                          period_orientation_type,
+                                                          eccentricity_type,
+                                                          amplitude_orientation_type)
 
-        self.orientation_type = orientation_type
-        amp_vary_label = {False: 'constant', True: 'vary'}[vary_amplitude]
+        self.period_orientation_type = period_orientation_type
+        self.amplitude_orientation_type = amplitude_orientation_type
         self.eccentricity_type = eccentricity_type
-        self.vary_amplitude = vary_amplitude
-        self.model_type = '%s_donut_%s_amps-%s' % (eccentricity_type, orientation_type,
-                                                   amp_vary_label)
+        self.model_type = (f'{eccentricity_type}_donut_period-{period_orientation_type}_'
+                           f'amps-{amplitude_orientation_type}')
         self.sigma = _cast_as_param(sigma)
 
         self.abs_amplitude_cardinals = _cast_as_param(kwargs['abs_amplitude_cardinals'],
@@ -182,11 +226,14 @@ class LogGaussianDonut(torch.nn.Module):
         params = {}
         for i, row in df.iterrows():
             params[row.model_parameter] = row.fit_value
-        parse_string = r'([a-z]+)_donut_([a-z]+)_amps-([a-z]+)'
-        eccentricity_type, orientation_type, amp_vary_label = re.findall(parse_string,
-                                                                         fit_model_type[0])[0]
-        return cls(orientation_type, eccentricity_type,
-                   {'vary': True, 'constant': False}[amp_vary_label], **params)
+        # we may have renamed the model type to the version we used for
+        # plotting in the paper. if so, this will map it back to the original
+        # version so our re.findall will work as expected
+        model_name_map = dict(zip(MODEL_PLOT_ORDER, MODEL_ORDER))
+        fit_model_type = model_name_map.get(fit_model_type[0], fit_model_type[0])
+        parse_string = r'([a-z]+)_donut_period-([a-z]+)_amps-([a-z]+)'
+        ecc, period, amps = re.findall(parse_string, fit_model_type)[0]
+        return cls(period, ecc, amps, **params)
 
     def __str__(self):
         # so we can see the parameters
@@ -203,44 +250,6 @@ class LogGaussianDonut(torch.nn.Module):
     def __repr__(self):
         return self.__str__()
     
-    def prepare_image_computable(self, energy, filters, stim_radius_degree=12):
-        """prepare for the image computable version of the model
-
-        Parameters
-        ----------
-        energy : np.ndarray
-            energy has shape (num_classes, n_scales, n_orientations, *img_size) and 
-            contains the energy (square and absolute value the complex valued output of 
-            SteerablePyramidFreq; equivalently, square and sum the output of the quadrature pair of 
-            filters that make up the pyramid) for each image, at each scale and orientation. the energy
-            has all been upsampled to the size of the initial image.
-        filters : np.ndarray
-            filters has shape (max_ht, n_orientations, *img_size) and is the fourier transform of the 
-            filters at each scale and orientation, zero-padded so they all have the same size. we only 
-            have one set of filters (instead of one per stimulus class) because the same pyramid was 
-            used for each of them; we ensure this by getting the filters for each stimulus class and 
-            checking that they're individually equal to the average across classes.
-        stim_radius_degree : int
-            the radius of the stimuli (in degrees), necessary for converting between pixels and 
-            degrees.
-
-        """
-        self.stim_radius_degree = stim_radius_degree
-        if energy.shape[-2] != energy.shape[-1]:
-            raise Exception("For now, this only works on square input images!")
-        self.image_size = energy.shape[-1]
-        filters, energy = _cast_args_as_tensors([filters, energy], self.sigma.is_cuda)
-        self.energy = energy.unsqueeze(0)
-        # this is the l1 norm
-        norm_weights = filters.abs().sum((2,3), keepdim=True)
-        norm_weights = norm_weights[0] / norm_weights
-        self.filters = filters * norm_weights
-        x = np.linspace(-self.stim_radius_degree, self.stim_radius_degree, self.image_size)
-        x, y = np.meshgrid(x, x)
-        # we want to try and delete things to save memory
-        del norm_weights, energy, filters
-        self.visual_space = np.dstack((x, y))
-
     def _create_mag_angle(self, extent=(-10, 10), n_samps=1001):
         x = torch.linspace(extent[0], extent[1], n_samps)
         x, y = torch.meshgrid(x, x)
