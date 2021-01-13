@@ -142,20 +142,20 @@ def polar_plot(model, reference_frame, r):
             }
         }
     elif r == 'period':
-        df = sfm.analyze_model.create_preferred_period_contour_df(model, reference_frame,
-                                                                  period_target=[1])
+        df = sfm.analyze_model.create_preferred_period_df(model, reference_frame, eccentricity=[5],
+                                                          retinotopic_angle=np.linspace(0, 2*np.pi, 49))
         return {
             'data': [
                 dict(theta=df.query("`Stimulus type`==@i")['Retinotopic angle (rad)'],
                      thetaunit='radians', line={'color': pal[i]},
-                     r=df.query("`Stimulus type`==@i")['Eccentricity (deg)'],
+                     r=df.query("`Stimulus type`==@i")['Preferred period (dpc)'],
                      name=i, type='scatterpolar')
                 for i in df['Stimulus type'].unique()
             ],
             'layout': {
                 'angularaxis': {'title': 'Retinotopic angle'},
                 'radialaxis': {'title': 'Eccentricity (deg)'},
-                'title': 'Iso-preferred-period contours (preferred period = 1 dpc)',
+                'title': 'Preferred period at eccentricity 5 deg',
             }
         }
 

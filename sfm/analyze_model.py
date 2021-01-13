@@ -266,91 +266,6 @@ def create_preferred_period_df(model, reference_frame='absolute',
     return _finish_feature_df(df, reference_frame)
 
 
-def create_preferred_period_contour_df(model, reference_frame='absolute',
-                                       retinotopic_angle=np.linspace(0, 2*np.pi, 49),
-                                       orientation=np.linspace(0, np.pi, 4, endpoint=False),
-                                       period_target=[.5, 1, 1.5], ):
-    """Create dataframe summarizing preferred period as function of retinotopic angle
-
-    Generally, you should not call this function directly, but use
-    create_feature_df. Differences from that function: this functions
-    requires the initialized model and only creates the info for a
-    single model, while create_feature_df uses the models dataframe to
-    initialize models itself, and combines the outputs across multiple
-    indicators.
-
-    This function creates a dataframe summarizing the specified model's
-    preferred period as a function of retinotopic angle, for multiple
-    stimulus orientations (in either absolute or relative reference
-    frames) and target periods. That is, it contains information showing
-    at what eccentricity the model's preferred period is, e.g., 1 for a
-    range of retinotopic angles and stimulus orientation. This dataframe
-    is then used for creating plots to summarize the model.
-
-    Unless you have something specific in mind, you can trust the
-    default options for retinotopic_angle, orientation, and
-    period_target
-
-    Parameters
-    ----------
-    model : sfp.model.LogGaussianDonut
-        a single, initialized model, which we will summarize.
-    reference_frame : {"absolute", "relative"}, optional
-        Whether we use the absolute or relative reference frame in the
-        feature dataframe; that is whether we consider conventional
-        gratings (absolute, orientation is relative to
-        vertical/horizontal), or our log-polar gratings (relative,
-        orientation is relative to fovea).
-    retinotopic_angle : np.array, optional
-        Array specifying which retinotopic angles to find the preferred
-        period for. Note that the sampling of retinotopic angle is much
-        finer than for create_preferred_period_df (and goes all the way
-        to 2*pi), because this is what we will use as the dependent
-        variable in our plotsl
-    orientation : np.array, optional
-        Array specifying which stimulus orientations to find the
-        preferred period for. Note that the meaning of these
-        orientations will differ depending on the value of
-        reference_frame; you should most likely plot and interpret the
-        output based on the "Stimulus type" column instead (which
-        include strings like 'vertical'/'horizontal' or
-        'radial'/'angular'). However, this mapping can only happen if
-        the values in orientation line up with our stimuli (0, pi/4,
-        pi/2, 3*pi/2), and thus it's especially recommended that you use
-        the default value for this argument. If you don't care about
-        orientation and just want to summarize the model's overall
-        features, you should use the default (which includes all
-        orientations where the model can have different preferences,
-        based on its parametrization) and then average over them.
-    period_target : np.array, optional
-        Array specifying which the target periods for the model. The
-        intended use of this dataframe is to plot contour plots showing
-        at what eccentricity the model will have a specified preferred
-        period (for a range of angles and orientations), and this
-        argument specifies those periods.
-
-    Returns
-    -------
-    preferred_period_contour_df : pd.DataFrame
-        Dataframe containing preferred period of the model, to use with
-        sfp.plotting.feature_df_polar_plot for plotting preferred period
-        as a function of retinotopic angle.
-
-    """
-    df = []
-    for p in period_target:
-        if reference_frame == 'absolute':
-            tmp = model.preferred_period_contour(p, retinotopic_angle, orientation)
-        elif reference_frame == 'relative':
-            tmp = model.preferred_period_contour(p, retinotopic_angle, rel_sf_angle=orientation)
-        tmp = pd.DataFrame(tmp.detach().numpy(), index=retinotopic_angle, columns=orientation)
-        tmp = tmp.reset_index().rename(columns={'index': 'Retinotopic angle (rad)'})
-        tmp['Preferred period (dpc)'] = p
-        df.append(pd.melt(tmp, ['Retinotopic angle (rad)', 'Preferred period (dpc)'],
-                          var_name='Orientation (rad)', value_name='Eccentricity (deg)'))
-    return _finish_feature_df(df, reference_frame)
-
-
 def create_max_amplitude_df(model, reference_frame='absolute',
                             retinotopic_angle=np.linspace(0, 2*np.pi, 49),
                             orientation=np.linspace(0, np.pi, 4, endpoint=False)):
@@ -434,13 +349,13 @@ def create_feature_df(models, feature_type='preferred_period', reference_frame='
 
     This is used to create a feature data frame that combines info
     across multiple models, using the "indicator" column to separate
-    them, and serves as a wrapper around three other functions:
-    create_preferred_period_df, create_preferred_period_contour_df, and
-    create_max_amplitude_df (based on the value of the feature_type
-    arg). We loop through the unique indicators in the models dataframe
-    and instantiate a model for each one (thus, each indicator must only
-    have one associated model). We then create dataframes summarizing
-    the relevant features, add the indicator, and, concatenate.
+    them, and serves as a wrapper around two other functions:
+    create_preferred_period_df and create_max_amplitude_df (based on the
+    value of the feature_type arg). We loop through the unique
+    indicators in the models dataframe and instantiate a model for each
+    one (thus, each indicator must only have one associated model). We
+    then create dataframes summarizing the relevant features, add the
+    indicator, and, concatenate.
 
     The intended use of these dataframes is to create plots showing the
     models' predictions for (using bootstraps to get confidence
@@ -482,8 +397,7 @@ def create_feature_df(models, feature_type='preferred_period', reference_frame='
         11 parameters
     feature_type : {"preferred_period", "preferred_period_contour", "max_amplitude"}, optional
         Which feature dataframe to create. Determines which function we
-        call, from create_preferred_period_df,
-        create_preferred_period_contour_df, and create_max_amplitude_df
+        call, from create_preferred_period_df and create_max_amplitude_df
     reference_frame : {"absolute", "relative"}, optional
         Whether we use the absolute or relative reference frame in the
         feature dataframe; that is whether we consider conventional
@@ -506,7 +420,9 @@ def create_feature_df(models, feature_type='preferred_period', reference_frame='
         if feature_type == 'preferred_period':
             df.append(create_preferred_period_df(m, reference_frame, **kwargs))
         elif feature_type == 'preferred_period_contour':
-            df.append(create_preferred_period_contour_df(m, reference_frame, **kwargs))
+            df.append(create_preferred_period_df(m, reference_frame, eccentricity=[5],
+                                                 retinotopic_angle=np.linspace(0, 2*np.pi, 49),
+                                                 **kwargs))
         elif feature_type == 'max_amplitude':
             df.append(create_max_amplitude_df(m, reference_frame, **kwargs))
         df[-1]['indicator'] = ind
