@@ -5,28 +5,24 @@ Model from the spatial frequency preferences paper
 # Docker container
 
 The recommended way to run this app is using the provided [docker
-image](https://hub.docker.com/r/billbrod/spatial-frequency-model). Download
-and install docker, make sure the docker daemon is running (if you're
-not sure, try running `sudo dockerd` in the terminal), then run:
+image](https://hub.docker.com/r/billbrod/spatial-frequency-model) and
+`docker-compose`. Download and install
+[docker](https://docs.docker.com/engine/install/) and
+[docker-compose](https://docs.docker.com/compose/install/), make sure the docker
+daemon is running (if you're not sure, try running `sudo dockerd` in the
+terminal), then run:
 
 ```
-sudo docker pull billbrod/spatial-frequency-model
+sudo docker-compose up
 ```
 
-to download it from dockerhub.
-
-Then to run:
-
-```
-sudo docker run -p 8050:8050 billbrod/spatial-frequency-model
-```
-
-and open `http://localhost:8050/` in your browser
+to download the image from dockerhub and start it up. Open
+`http://localhost:8050/` in your browser to view the app.
 
 ## Build Dockerfile
 
-If you want to build the `Dockerfile` yourself (for testing local
-changes in this repo), just run:
+If you want to build the `Dockerfile` yourself (for testing local changes in
+this repo or because the dockerhub image has gone down), just run:
 
 ```
 sudo docker build --tag spatial-frequency-model:latest ./

@@ -1,0 +1,12 @@
+version: "2"
+services:
+  webapp:
+    image: billbrod/spatial-frequency-model:latest
+    container_name: spatial-frequency-model
+    ports:
+      - 8050:8050
+    # I think commenting out the following and commenting the image: line above
+    # should allow you to use docker-compose to build the image, but I'm not
+    # sure.
+    # build:
+    #   dockerfile: Dockerfile
