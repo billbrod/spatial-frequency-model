@@ -1,9 +1,13 @@
-FROM continuumio/miniconda3:4.9.2
+FROM continuumio/miniconda3:latest
 ARG conda_env=dash
 
 # need to get mathjax-node-cli
 RUN apt -y update
-RUN apt install -y nodejs npm
+# for which we need nodejs version 12 or greater; only up to 10 is included in
+# the default repos, so we add this one
+RUN apt -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt install -y nodejs
 RUN npm install --global mathjax-node-cli
 
 # move over this directory
@@ -11,7 +15,7 @@ RUN mkdir /src
 COPY . /src/spatial-frequency-model
 
 # install dash
-RUN /bin/bash -c "pip install dash==1.18.1"
+RUN /bin/bash -c "pip install dash==2.0"
 
 # install other packages
 RUN /bin/bash -c "pip install /src/spatial-frequency-model/"
