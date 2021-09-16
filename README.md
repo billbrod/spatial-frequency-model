@@ -2,7 +2,14 @@
 
 Model from the spatial frequency preferences paper
 
-# Docker container
+# Webapp 
+
+This webapp is live [on my
+website](https://wfbroderick.com/spatial-frequency-model), but it takes a long
+time to load and so you may be better off following the instructions below to
+get it running.
+
+## Docker container
 
 The recommended way to run this app is using the provided [docker
 image](https://hub.docker.com/r/billbrod/spatial-frequency-model) and
@@ -19,7 +26,7 @@ sudo docker-compose up
 to download the image from dockerhub and start it up. Open
 `http://localhost:8050/` in your browser to view the app.
 
-## Build Dockerfile
+### Build Dockerfile
 
 If you want to build the `Dockerfile` yourself (for testing local changes in
 this repo or because the dockerhub image has gone down), just run:
@@ -31,7 +38,7 @@ sudo docker build --tag spatial-frequency-model:latest ./
 from this directory, then `docker run -p 8050:8050 spatial-frequency-model` and
 open `http://localhost:8050/` in your browser.
 
-## Closing the container
+### Closing the container
 
 The image will run until you kill it, and the only way I've found to
 do that is to find the docker container ID and tell docker to kill it
@@ -53,7 +60,7 @@ sudo docker kill [CONTAINER ID]
 
 which should kill the other `docker run` process.
 
-# Run locally
+## Run locally
 
 If you want to run locally, you can either [build the
 `Dockerfile`](#build-dockerfile) or install the package locally. If you want to
@@ -91,7 +98,7 @@ change), but you can generate them manually:
    equations/convert.py` (it takes no arguments; it will convert all
    `.tex` files found in the same directory).
 
-## Using conda for python environments
+### Using conda for python environments
 
 To use conda to manage your python environments, make sure you have `conda`
 installed (if you don't already have it installed, see
