@@ -14,13 +14,14 @@ import sfm
 import functions
 import dash
 import numpy as np
-import dash_core_components as dcc
+from dash import dcc
 import os.path as op
-import dash_html_components as html
+from dash import html
 from dash.dependencies import Input, Output
 
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
+app = dash.Dash(__name__, suppress_callback_exceptions=True,
+                serve_locally=False)
 
 image_dir = op.join(op.dirname(op.realpath(__file__)), '..', 'images')
 eqts_dir = op.join(image_dir, 'equations')
