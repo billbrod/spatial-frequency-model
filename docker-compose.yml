@@ -9,4 +9,5 @@ services:
     # should allow you to use docker-compose to build the image, but I'm not
     # sure.
     # build:
+    #   context: ./
     #   dockerfile: Dockerfile
