@@ -24,7 +24,7 @@ sudo docker-compose up
 ```
 
 to download the image from dockerhub and start it up. Open
-`http://localhost:8050/` in your browser to view the app.
+`http://localhost:8050/spatial-frequency-model` in your browser to view the app.
 
 ### Build Dockerfile
 
@@ -36,7 +36,7 @@ sudo docker build --tag spatial-frequency-model:latest ./
 ```
 
 from this directory, then `docker run -p 8050:8050 spatial-frequency-model` and
-open `http://localhost:8050/` in your browser.
+open `http://localhost:8050/spatial-frequency-model` in your browser.
 
 ### Closing the container
 
@@ -77,9 +77,9 @@ pip install -e .
 python webapp/app.py
 ```
 
-And open `http://localhost:8050/` in your browser (if it doesn't do so
-automatically). The `dash` version probably doesn't matter for anything we do,
-but the docker container uses `1.18.1` if you want to match it.
+And open `http://localhost:8050/spatial-frequency-model` in your browser (if it
+doesn't do so automatically). The `dash` version probably doesn't matter for
+anything we do, but the docker container uses `1.18.1` if you want to match it.
 
 The app uses a variety of `.svg` images of equations (since MathJax
 and other LaTeX renderers apparently don't work in Dash right

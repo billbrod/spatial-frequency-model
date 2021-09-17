@@ -21,7 +21,7 @@ from dash.dependencies import Input, Output
 
 
 app = dash.Dash(__name__, suppress_callback_exceptions=True,
-                serve_locally=False)
+                url_base_pathname='/spatial-frequency-model/')
 
 image_dir = op.join(op.dirname(op.realpath(__file__)), '..', 'images')
 eqts_dir = op.join(image_dir, 'equations')
