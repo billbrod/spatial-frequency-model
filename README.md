@@ -5,7 +5,7 @@ Model from the spatial frequency preferences paper
 # Webapp 
 
 This webapp is live [on my
-website](https://wfbroderick.com/spatial-frequency-model), but it takes a long
+website](https://wfbroderick.com/spatial-frequency-model/), but it takes a long
 time to load and so you may be better off following the instructions below to
 get it running.
 
