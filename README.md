@@ -1,6 +1,42 @@
 # spatial-frequency-model
 
-Model from the spatial frequency preferences paper
+Model from the spatial frequency preferences paper. This repo has two
+components: 
+- [model code](#model-code): if you want to play around the model without the
+  full [repo for the
+  paper](https://github.com/billbrod/spatial-frequency-preferences).
+- [webapp](#webapp): for exploring how the model's predictions respond to
+  changes in parameter values.
+
+If you use this model in an academic publication, please cite the paper **LINK**
+and the Zenodo doi for the Github with code associated with the paper **LINK**
+
+# Model code
+
+To use the model code present here, you need to first set up the python
+environment. The following will walk you through it:
+
+- Install [miniconda](https://docs.conda.io/en/latest/miniconda.html) on your
+  system for python 3.7.
+- Navigate to this directory and run the following:
+
+``` sh
+conda create -n sfm python==3.7
+conda activate sfm
+pip install -e .
+```
+
+Now, when you open python, you can access the model by importing this library
+and making use of it:
+
+``` python
+import sfm
+model = sfm.model.LogGaussianDonut()
+```
+
+See the example notebook in the paper repo for how to use the model:
+[Binder](https://mybinder.org/v2/gh/billbrod/spatial-frequency-preferences/HEAD?filepath=notebooks),
+[github repo](https://github.com/billbrod/spatial-frequency-preferences)
 
 # Webapp 
 
