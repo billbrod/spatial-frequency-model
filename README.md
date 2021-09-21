@@ -36,7 +36,10 @@ model = sfm.model.LogGaussianDonut()
 
 See the example notebook in the paper repo for how to use the model:
 [Binder](https://mybinder.org/v2/gh/billbrod/spatial-frequency-preferences/HEAD?filepath=notebooks),
-[github repo](https://github.com/billbrod/spatial-frequency-preferences)
+[github repo](https://github.com/billbrod/spatial-frequency-preferences). Also
+see [the
+readme](https://github.com/billbrod/spatial-frequency-preferences#model-parameters)
+for how to use the parameter values presented in the paper.
 
 # Webapp 
 
