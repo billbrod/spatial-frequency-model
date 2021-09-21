@@ -715,36 +715,35 @@ def model_type(a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     """
     if A1 == 0 and A2 == 0 and A3 == 0 and A4 == 0:
         if a == 0 and p1 == 0 and p2 == 0 and p3 == 0 and p4 == 0:
-            name = '1 (constant period-iso amps-iso)'
+            name = '1'
         elif b == 0 and p1 == 0 and p2 == 0 and p3 == 0 and p4 == 0:
-            name = '2 (scaling period-iso amps-iso)'
+            name = '2'
         elif p1 == 0 and p2 == 0 and p3 == 0 and p4 == 0:
-            name = '3 (full period-iso amps-iso)'
-        elif p1 == 0 and p2 == 0:
-            name = '4 (full period-absolute amps-iso)'
+            name = '3'
         elif p3 == 0 and p4 == 0:
-            name = '5 (full period-relative amps-iso)'
+            name = '4'
+        elif p1 == 0 and p2 == 0:
+            name = '5'
         else:
-            name = '6 (full period-full amps-iso)'
+            name = '6'
     elif A3 == 0 and A4 == 0:
         if p1 == 0 and p2 == 0 and p3 == 0 and p4 == 0:
-            name = '7 (full period-iso amps-absolute)'
-        if p3 == 0 and p4 == 0:
-            name = '8 (full period-absolute amps-absolute)'
+            name = '7'
+        elif p3 == 0 and p4 == 0:
+            name = '8'
         else:
-            name = '9 (full period-full amps-absolute)'
+            name = '9'
     else:
-       
         if p1 == 0 and p2 == 0 and p3 == 0 and p4 == 0 and A1 == 0 and A2 == 0:
-            name = '3-alt (full period-iso amps-relative)'
-        elif p3 == 0 and p4 == 0 and A1 == 0 and A2 == 0:
-            name = '5-alt (full period-relative amps-relative)'
+            name = '3-alt'
+        elif p1 == 0 and p2 == 0 and A1 == 0 and A2 == 0:
+            name = '5-alt'
         elif A1 == 0 and A2 == 0:
-            name = '6-alt (full period-full amps-relative)'
+            name = '6-alt'
         elif p1 == 0 and p2 == 0 and p3 == 0 and p4 == 0:
-            name = '7-alt (full period-iso amps-full)'
+            name = '7-alt'
         else:
-            name = '9-alt (full period-full amps-full)'
+            name = '9-alt'
     return [f'Model type: {name}']
 
 
