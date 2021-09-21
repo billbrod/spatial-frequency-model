@@ -34,15 +34,15 @@ this repo or because the dockerhub image has gone down), just run:
 sudo docker build --tag spatial-frequency-model:latest ./
 ```
 
-from this directory, then `docker run -p 8050:8050 spatial-frequency-model` and
-open `http://localhost:8050/spatial-frequency-model` in your browser.
+from this directory, then `sudo docker-compose up` and open
+`http://localhost:8050/spatial-frequency-model` in your browser.
 
 ### Closing the container
 
-The image will run until you kill it, and the only way I've found to
-do that is to find the docker container ID and tell docker to kill it
-(for some reason, pressing `ctrl+c` doesn't work). So in a new
-terminal window, run:
+If you opened this image with `docker-compose`, as recommended, you should be
+able to press `ctrl+c` once to kill it gracefully. If that doesn't work (or you
+started it in background mode), you may have to find the docker container ID and
+tell docker to kill. In a new terminal window, run:
 
 ```
 sudo docker ps
@@ -57,7 +57,7 @@ then run:
 sudo docker kill [CONTAINER ID]
 ```
 
-which should kill the other `docker run` process.
+which should kill the open process.
 
 ## Run locally
 
