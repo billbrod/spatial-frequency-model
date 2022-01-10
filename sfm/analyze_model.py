@@ -164,7 +164,7 @@ def _finish_feature_df(df, reference_frame='absolute'):
     df['reference_frame'] = reference_frame
     angle_ref = np.linspace(0, np.pi, 4, endpoint=False)
     angle_labels = ['0', r'$\frac{\pi}{4}$', r'$\frac{\pi}{2}$', r'$\frac{3\pi}{4}$']
-    rel_labels = ['radial', 'forward spiral', 'angular', 'reverse spiral']
+    rel_labels = ['annuli', 'forward spiral', 'pinwheels', 'reverse spiral']
     abs_labels = ['vertical', 'forward diagonal', 'horizontal', 'reverse diagonal']
     if np.array_equiv(angle_ref, df["Retinotopic angle (rad)"].unique()):
         df["Retinotopic angle (rad)"] = df["Retinotopic angle (rad)"].map(dict((k, v) for k, v in
@@ -226,7 +226,7 @@ def create_preferred_period_df(model, reference_frame='absolute',
         reference_frame; you should most likely plot and interpret the
         output based on the "Stimulus type" column instead (which
         include strings like 'vertical'/'horizontal' or
-        'radial'/'angular'). However, this mapping can only happen if
+        'annuli'/'pinwheels'). However, this mapping can only happen if
         the values in orientation line up with our stimuli (0, pi/4,
         pi/2, 3*pi/2), and thus it's especially recommended that you use
         the default value for this argument. If you don't care about
@@ -310,7 +310,7 @@ def create_max_amplitude_df(model, reference_frame='absolute',
         reference_frame; you should most likely plot and interpret the
         output based on the "Stimulus type" column instead (which
         include strings like 'vertical'/'horizontal' or
-        'radial'/'angular'). However, this mapping can only happen if
+        'annuli'/'pinwheels'). However, this mapping can only happen if
         the values in orientation line up with our stimuli (0, pi/4,
         pi/2, 3*pi/2), and thus it's especially recommended that you use
         the default value for this argument. If you don't care about

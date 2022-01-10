@@ -177,11 +177,11 @@ def rel_period_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -193,11 +193,11 @@ def rel_period_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -244,11 +244,11 @@ def abs_period_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -260,11 +260,11 @@ def abs_period_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -314,11 +314,11 @@ def rel_period_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -330,11 +330,11 @@ def rel_period_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -384,11 +384,11 @@ def abs_period_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -400,11 +400,11 @@ def abs_period_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -454,11 +454,11 @@ def rel_amp_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -470,11 +470,11 @@ def rel_amp_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -524,11 +524,11 @@ def abs_amp_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -540,11 +540,11 @@ def abs_amp_contour_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -594,11 +594,11 @@ def pdf_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4, reference_frame, vox_
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -610,11 +610,11 @@ def pdf_graph(sigma, a, b, p1, p2, p3, p4, A1, A2, A3, A4, reference_frame, vox_
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
     reference_frame : {'relative', 'absolute'}
         Which reference frame to show.
     vox_ecc : float
@@ -685,11 +685,11 @@ def model_type(a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
     A1 : float
         model's abs_amplitude_cardinals parameter, controlling the
         effect of the cardinal absolute orientations on max amplitude
@@ -701,11 +701,11 @@ def model_type(a, b, p1, p2, p3, p4, A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -785,11 +785,11 @@ def period_eqt(a, b, p1, p2, p3, p4):
     p3 : float
         model's rel_mode_cardinals parameter, controlling the effect of
         the cardinal relative orientations on preferred period (i.e.,
-        radial vs. angular)
+        annuli vs. pinwheels)
     p4 : float
         model's rel_mode_obliques parameter, controlling the effect of
         the relative cardinals vs obliques orientations on preferred
-        period (i.e., radial/angular vs. spirals)
+        period (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------
@@ -842,11 +842,11 @@ def amp_eqt(A1, A2, A3, A4):
     A3 : float
         model's rel_amplitude_cardinals parameter, controlling the
         effect of the cardinal relative orientations on max amplitude
-        (i.e., radial vs. angular)
+        (i.e., annuli vs. pinwheels)
     A4 : float
         model's rel_amplitude_obliques parameter, controlling the effect
         of the relative cardinals vs obliques orientations on max
-        amplitude (i.e., radial/angular vs. spirals)
+        amplitude (i.e., annuli/pinwheels vs. spirals)
 
     Returns
     -------

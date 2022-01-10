@@ -4,7 +4,7 @@
 import itertools
 import seaborn as sns
 
-LOGPOLAR_SUPERCLASS_ORDER = ['radial', 'forward spiral', 'angular', 'reverse spiral', 'mixtures']
+LOGPOLAR_SUPERCLASS_ORDER = ['annuli', 'forward spiral', 'pinwheels', 'reverse spiral', 'mixtures']
 CONSTANT_SUPERCLASS_ORDER = ['vertical', 'forward diagonal', 'horizontal', 'reverse diagonal',
                              'off-diagonal']
 PARAM_ORDER = (['sigma', 'sf_ecc_slope', 'sf_ecc_intercept'] +
