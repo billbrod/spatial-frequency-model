@@ -8,8 +8,10 @@ components:
 - [webapp](#webapp): for exploring how the model's predictions respond to
   changes in parameter values.
 
-If you use this model in an academic publication, please cite the paper **LINK**
-and the Zenodo doi for the Github with code associated with the paper **LINK**
+If you use this model in an academic publication, please cite the [paper](https://doi.org/10.1101/2021.09.27.462032)
+and the [Zenodo doi](https://zenodo.org/badge/latestdoi/98347660)
+for the [Github repo](https://github.com/billbrod/spatial-frequency-preferences/tree/main)
+with code associated with the paper.
 
 # Model code
 
