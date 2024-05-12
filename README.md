@@ -43,9 +43,21 @@ for how to use the parameter values presented in the paper.
 
 # Webapp 
 
-This webapp is live [on my
-website](https://wfbroderick.com/spatial-frequency-model/), but you can also do
-the following to run it locally.
+~~This webapp is live [on my website](https://wfbroderick.com/spatial-frequency-model/), but you can also do the following to run it locally.~~ As of May 2024, I'm no longer hosting this on my website, but you can still do the following to run it locally.
+
+## Screenshots
+
+The webapp allows you to change the parameters of the model and view the resulting predictions, both in terms of the responses of a single voxel to the stimuli used in our experiment, and the preferred period as a function of eccentricity and polar angle in response to those stimuli, as shown in the paper's figures.
+
+With default parameters (no effect of orientation on tuning):
+
+![](assets/default-1.png)
+![](assets/default-2.png)
+
+After fiddling with the parameters, to pull apart the tuning in response to different stimuli:
+
+![](assets/different-1.png)
+![](assets/different-2.png)
 
 ## Docker container
 
