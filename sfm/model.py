@@ -253,6 +253,7 @@ class LogGaussianDonut(torch.nn.Module):
     def _create_mag_angle(self, extent=(-10, 10), n_samps=1001):
         x = torch.linspace(extent[0], extent[1], n_samps)
         x, y = torch.meshgrid(x, x)
+        y = np.flip(y, 0)
         r = torch.sqrt(torch.pow(x, 2) + torch.pow(y, 2))
         th = torch.atan2(y, x)
         return r, th
